@@ -18,17 +18,24 @@ router.get("/", (req, res) => {
 module.exports = router;
 
 //POST
-// router.post("/", (req, res) => {
-//   console.log(req.body);
-//   const actionInfo = req.body;
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  const actionInfo = req.body;
 
-//   if (actionInfo.name && actionInfo.description) {
-//     db.insert(actionInfo)
-//       .then(res => console.log(res))
-//       .catch();
-//   } else {
-//     res
-//       .status(404)
-//       .json({ errorMessage: "Please provide name and description for action" });
-//   }
-// });
+  if (actionInfo.project_id && actionInfo.description && actionInfo.notes) {
+    try {
+      action = await db.insert(actionInfo);
+      res.status(201).json({ action });
+    } catch (error) {
+      console.log(error);
+
+      res
+        .status(500)
+        .json({ errorMessage: "Error while trying to post new action" });
+    }
+  } else {
+    res.status(404).json({
+      errorMessage: "Please provide project id, description, & notes for action"
+    });
+  }
+});
