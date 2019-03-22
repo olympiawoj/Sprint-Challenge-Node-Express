@@ -48,6 +48,31 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+//Update a project
+router.put("/:id", async (req, res) => {
+  console.log(req.body);
+  const projectInfo = req.body;
+  if (projectInfo.name && projectInfo.description) {
+    try {
+      const project = await db.update(req.params.id, projectInfo);
+      console.log(project);
+      if (project) {
+        res.status(200).json({ project });
+      } else {
+        res
+          .status(204)
+          .json({ errorMessage: "The project could not be found" });
+      }
+    } catch (error) {
+      res.status(500).json({ errorMessage: "Error updating this project" });
+    }
+  } else {
+    res
+      .status(404)
+      .json({ errorMessage: "Please provide name or description for user" });
+  }
+});
+
 //GET actions of a project by using projectID
 
 module.exports = router;
