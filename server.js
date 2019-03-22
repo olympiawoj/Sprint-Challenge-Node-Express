@@ -2,7 +2,7 @@
 const express = require("express");
 
 const actionsRouter = require("./actions/actionsRouter.js");
-// const projectsRouter = require("./projects/projectsRouter.js");
+const projectsRouter = require("./projects/projectsRouter.js");
 
 //create instance of server
 const server = express();
@@ -11,7 +11,7 @@ const server = express();
 server.use(express.json());
 
 server.use("/api/actions", actionsRouter);
-// server.use("./api/projects", projectsRouter);
+server.use("/api/projects", projectsRouter);
 
 //root server test
 server.get("/", (req, res) => {

@@ -7,6 +7,7 @@ const db = require("./actionModel.js");
 //bring in router express
 const router = express.Router();
 
+//GET ALL ACTIONS
 router.get("/", (req, res) => {
   db.get()
     .then(actions => res.status(200).json(actions))
@@ -15,3 +16,19 @@ router.get("/", (req, res) => {
     );
 });
 module.exports = router;
+
+//POST
+// router.post("/", (req, res) => {
+//   console.log(req.body);
+//   const actionInfo = req.body;
+
+//   if (actionInfo.name && actionInfo.description) {
+//     db.insert(actionInfo)
+//       .then(res => console.log(res))
+//       .catch();
+//   } else {
+//     res
+//       .status(404)
+//       .json({ errorMessage: "Please provide name and description for action" });
+//   }
+// });
