@@ -17,14 +17,14 @@ router.get("/", (req, res) => {
 });
 module.exports = router;
 
-//POST
+//POST new action
 router.post("/", async (req, res) => {
   console.log(req.body);
   const actionInfo = req.body;
 
   if (actionInfo.project_id && actionInfo.description && actionInfo.notes) {
     try {
-      action = await db.insert(actionInfo);
+      const action = await db.insert(actionInfo);
       res.status(201).json({ action });
     } catch (error) {
       console.log(error);
@@ -37,5 +37,22 @@ router.post("/", async (req, res) => {
     res.status(404).json({
       errorMessage: "Please provide project id, description, & notes for action"
     });
+  }
+});
+
+//Delete action
+
+router.delete("/:id", async (req, res) => {
+  console.log(req.params);
+  try {
+    const count = await db.remove(req.params.id);
+    if (count > 0) {
+      res.status(200).json({ message: "Action was removed" });
+    } else {
+      res.status(404).json({ errorMessage: "The actoun could not be found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errorMessage: "Error removing the action" });
   }
 });
