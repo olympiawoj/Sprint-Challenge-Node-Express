@@ -74,5 +74,24 @@ router.put("/:id", async (req, res) => {
 });
 
 //GET actions of a project by using projectID
+router.get("/:id/actions", async (req, res) => {
+  console.log(req.params);
+  try {
+    const projActions = await db.getProjectActions(req.params.id);
+
+    console.log(projActions);
+    if (projActions.length) {
+      res.status(200).json(projActions);
+    } else {
+      res
+        .status(404)
+        .json({ message: "The specified project does not have any actions" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ errorMessage: "Error getting actions of this project" });
+  }
+});
 
 module.exports = router;
