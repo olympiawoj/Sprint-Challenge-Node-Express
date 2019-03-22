@@ -56,3 +56,31 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ errorMessage: "Error removing the action" });
   }
 });
+
+//Update an action
+router.put("/:id", async (req, res) => {
+  const actionInfo = req.body;
+  console.log(actionInfo);
+  console.log(req.params.id);
+
+  if (actionInfo.project_id && actionInfo.description && actionInfo.notes) {
+    try {
+      const action = await db.update(req.params.id, actionInfo);
+      console.log(action);
+      if (action) {
+        res.status(200).json({ action });
+      } else {
+        res.status(204).json({ errorMessage: "The action could not be found" });
+      }
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ errorMessage: "Error while trying to update action" });
+    }
+  } else {
+    res.status(404).json({
+      errorMessage: "Please provide project id, description, & notes for action"
+    });
+  }
+});
