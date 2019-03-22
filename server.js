@@ -1,6 +1,16 @@
+//bring in express
 const express = require("express");
+
+const actionsRouter = require("./actions/actionsRouter.js");
+// const projectsRouter = require("./projects/projectsRouter.js");
+
+//create instance of server
 const server = express();
 
+server.use("/api/actions", actionsRouter);
+// server.use("./api/projects", projectsRouter);
+
+//root server test
 server.get("/", (req, res) => {
   res.send("testing 123");
 });
