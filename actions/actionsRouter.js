@@ -8,6 +8,10 @@ const db = require("./actionModel.js");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.send("hello test test again");
+  db.get()
+    .then(actions => res.status(200).json(actions))
+    .catch(err =>
+      res.status(500).json({ errorMessage: "Actions could not be retrieved" })
+    );
 });
 module.exports = router;
